@@ -1,0 +1,12 @@
+
+*.iml
+
+*.xml
+
+*.pyc
+
+*.aux
+
+*.log
+
+*.gz

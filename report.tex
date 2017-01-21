@@ -1,0 +1,119 @@
+\documentclass{article}
+\usepackage{xspace,graphicx,amsmath,amsthm,amssymb,xcolor}
+\setlength{\topmargin}{0.1in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6.5in}
+\title{CS531 Programming assignment \#1}
+\author{Matt Meyn, Durga Harish, and Jon Dodge}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The goal of this project is to assess the results of various agent control strategies in a simple path planning domain.
+The three strategies we explore are
+\begin{enumerate}
+\item Memoryless deterministic reflex agent
+\item Randomized reflex agent
+\item Deterministic Model-based reflex agent
+\end{enumerate}
+
+We found... FIXME provide summary of results once that is known
+
+\section{Description of agents}
+Here we will describe our agents as a set of rules, and give a diagram illustrating the path it takes in each environment.
+
+\subsection{Memoryless deterministic reflex agent}
+Essentially, this agent will move forward until it hits a wall, then turn right.
+
+FIXME typeset this pseudocode better
+
+		if isSpaceDirty:
+			return self.ActSuckDirt
+		
+		if not isFacingWall:
+			return self.ActMove
+			
+		if isHome:
+			return self.ActTurnOff
+		else:
+			return self.ActTurnRight
+
+FIXME generate diagrams
+
+\subsection{Randomized reflex agent}
+Essentially, this agent will randomly choose actions with a uniform distribution between the available actions. 
+In general, available actions are to move, turn left, and turn right, though the existence of a wall may remove the availability of the move option.
+The case that the agent is on the home square is treated similarly, it has equal probability to turn off or try to continue vacuuming.
+
+FIXME typeset this pseudocode better
+
+	if isSpaceDirty:
+		return self.ActSuckDirt
+
+	if isHome:
+		if random.randint(0, 5) == 0:
+			return self.ActTurnOff
+
+	if isFacingWall:
+		return self.TurnRandom()
+
+	else:
+		if random.randint(0, 3) == 0:
+			return self.TurnRandom()
+		else:
+			return self.ActMove
+
+FIXME generate diagrams
+
+
+\subsection{Deterministic Model-based reflex agent}
+FIXME implement this
+our first plan is to do a spiraling space filling curve, and our second plan is to do a snaking space filling curve
+
+
+FIXME typeset this pseudocode better
+
+
+
+FIXME generate diagrams
+
+
+
+
+
+\section{Experimental Setup}
+We have conducted experiments in 
+
+\section{Results}
+
+\section{Discussion}
+\begin{enumerate}
+\item What is the best possible performance achievable by the simple reflex agent in the two environments? 
+What prevents it from achieving the goal of cleaning the rooom perfectly in each case? 
+
+
+\item How well does the random agent perform? 
+Tune any parameters of the random agent to improve its performance. 
+Give a table showing the number of actions it took to clean 90\% of the room for each trial. 
+What is the average of these numbers for the best 45 trials? 
+What are the costs and benefits of randomness in agent design? 
+
+\item How does the memory-based deterministic agent perform in the two environments?
+Is it able to clean the room perfectly? 
+How long does it take? 
+Can the agent be improved with more memory?
+
+\item What are the tradeoffs between the random and determistic agents? 
+How would you design better agents for more complex environments, say with polygonal obstacles? 
+
+\item What did you learn from this experiment? 
+Were you surprised by anything? 
+
+\end{enumerate}
+\end{document}
