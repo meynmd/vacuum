@@ -10,39 +10,48 @@ class ModelCleaner(cleaner.Cleaner):
 		# 3 bits of memory
 		
 		self.IsSweepingNorth = True
-		self.NextAction = 0				# 0 == move, 1 == turn
+		self.NextAction = 0
+		self.moveForward = 0			# 0 == move, 1 == turn
 	
 
 	'''
 	choose an action based on current percept
 	
 	grid		2d list of Space	the starting environment
-	
+	NextAction ==1 -> Turn 
+	isFacingWall==1 
 	'''
 	def Choose(self, grid):
 		isFacingWall = self.SenseWall(grid)
 		isSpaceDirty = self.SenseDirt(grid)
+
 		isHome = self.SenseHome()
 
 		if isSpaceDirty:
 			return self.ActSuckDirt
 
 		else:	# space not dirty
-		
+				
 			if isFacingWall and self.IsSweepingNorth:
-				self.NextAction = 1
+				#self.NextAction = 1
+				self.moveForward = 1
 				self.IsSweepingNorth = not self.IsSweepingNorth
 				return self.ActTurnRight
 
 			elif isFacingWall and not self.IsSweepingNorth:
-				self.NextAction = 1
+				#self.NextAction = 1
+				self.moveForward = 1
 				self.IsSweepingNorth = not self.IsSweepingNorth
 				return self.ActTurnLeft
 
 			# not facing wall
 			else:
 				if self.NextAction == 0:
-					self.NextAction = not self.NextAction
+					#self.NextAction = not self.NextAction
+					if self.moveForward==1:
+						self.moveForward=0
+						self.NextAction=1
+
 					return self.ActMove
 
 				else:
