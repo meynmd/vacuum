@@ -45,6 +45,13 @@ class ModelCleaner(cleaner.Cleaner):
 			# if not isFacingWall and self.moveForward == 1 and self.NextAction==1:
 			# 	self.moveForward=0
 
+			if isFacingWall and self.moveForward:
+				if self.IsSweepingNorth:
+					self.moveForward=0
+					return self.ActTurnLeft
+				else:
+					self.moveForward=0
+					return self.ActTurnLeft
 
 
 			if isFacingWall and self.IsSweepingNorth:
