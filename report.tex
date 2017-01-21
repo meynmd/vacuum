@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{xspace,graphicx,amsmath,amsthm,amssymb,xcolor}
+\usepackage{listings}
 \setlength{\topmargin}{0.1in}
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
@@ -31,8 +32,7 @@ Here we will describe our agents as a set of rules, and give a diagram illustrat
 \subsection{Memoryless deterministic reflex agent}
 Essentially, this agent will move forward until it hits a wall, then turn right.
 
-FIXME typeset this pseudocode better
-
+\begin{lstlisting}[frame=single]
 		if isSpaceDirty:
 			return self.ActSuckDirt
 		
@@ -43,6 +43,7 @@ FIXME typeset this pseudocode better
 			return self.ActTurnOff
 		else:
 			return self.ActTurnRight
+\end{lstlisting}
 
 FIXME generate diagrams
 
@@ -51,8 +52,7 @@ Essentially, this agent will randomly choose actions with a uniform distribution
 In general, available actions are to move, turn left, and turn right, though the existence of a wall may remove the availability of the move option.
 The case that the agent is on the home square is treated similarly, it has equal probability to turn off or try to continue vacuuming.
 
-FIXME typeset this pseudocode better
-
+\begin{lstlisting}[frame=single]
 	if isSpaceDirty:
 		return self.ActSuckDirt
 
@@ -68,7 +68,7 @@ FIXME typeset this pseudocode better
 			return self.TurnRandom()
 		else:
 			return self.ActMove
-
+\end{lstlisting}
 FIXME generate diagrams
 
 
@@ -88,14 +88,18 @@ FIXME generate diagrams
 
 
 \section{Experimental Setup}
-We have conducted experiments in 
+We have conducted experiments in two environments.
+The first is a rectangular room full of dirt with no interior walls, while the second is a rectangular room with 4 interior walls to make the planning more difficult.
+Agents 1 and 3 are deterministic, so they will be run once for each input, while the second agent is uses randomness, so we will report the results of 50 trials.
 
 \section{Results}
+FIXME fill this in when done with implementation
+
 
 \section{Discussion}
 \begin{enumerate}
 \item What is the best possible performance achievable by the simple reflex agent in the two environments? 
-What prevents it from achieving the goal of cleaning the rooom perfectly in each case? 
+What prevents it from achieving the goal of cleaning the room perfectly in each case? 
 
 
 \item How well does the random agent perform? 
@@ -109,7 +113,7 @@ Is it able to clean the room perfectly?
 How long does it take? 
 Can the agent be improved with more memory?
 
-\item What are the tradeoffs between the random and determistic agents? 
+\item What are the tradeoffs between the random and deterministic agents? 
 How would you design better agents for more complex environments, say with polygonal obstacles? 
 
 \item What did you learn from this experiment? 
