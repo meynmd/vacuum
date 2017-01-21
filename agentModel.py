@@ -26,7 +26,9 @@ class ModelCleaner(cleaner.Cleaner):
 		isSpaceDirty = self.SenseDirt(grid)
 
 		isHome = self.SenseHome()
-
+		print 'IsSweepingNorth:',self.IsSweepingNorth
+		print 'NextAction:',self.NextAction
+		print 'moveForward:',self.moveForward
 		if isSpaceDirty:
 			return self.ActSuckDirt
 
@@ -39,6 +41,11 @@ class ModelCleaner(cleaner.Cleaner):
 				else:
 					self.NextAction=0
 					return self.ActTurnLeft
+
+			# if not isFacingWall and self.moveForward == 1 and self.NextAction==1:
+			# 	self.moveForward=0
+
+
 
 			if isFacingWall and self.IsSweepingNorth:
 				
@@ -61,6 +68,17 @@ class ModelCleaner(cleaner.Cleaner):
 						self.NextAction=1
 
 					return self.ActMove
+
+
+
+
+
+
+
+
+
+
+
 
 				# else:
 				# 	if not self.IsSweepingNorth:
