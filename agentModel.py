@@ -32,14 +32,26 @@ class ModelCleaner(cleaner.Cleaner):
 
 		else:	# space not dirty
 				
+			if isFacingWall and self.moveForward==1 and self.IsSweepingNorth==0:
+				print ' I am here '
+				self.moveForward=0
+				return self.ActTurnRight
+
+			if isFacingWall and self.moveForward==1 and self.IsSweepingNorth==1:
+				print ' I am Here '
+				self.moveForward=0
+				return self.ActTurnLeft
+
+
+
 			if isFacingWall and self.IsSweepingNorth:
-				#self.NextAction = 1
+				
 				self.moveForward = 1
 				self.IsSweepingNorth = not self.IsSweepingNorth
 				return self.ActTurnRight
 
 			elif isFacingWall and not self.IsSweepingNorth:
-				#self.NextAction = 1
+				
 				self.moveForward = 1
 				self.IsSweepingNorth = not self.IsSweepingNorth
 				return self.ActTurnLeft
@@ -47,7 +59,7 @@ class ModelCleaner(cleaner.Cleaner):
 			# not facing wall
 			else:
 				if self.NextAction == 0:
-					#self.NextAction = not self.NextAction
+					
 					if self.moveForward==1:
 						self.moveForward=0
 						self.NextAction=1
