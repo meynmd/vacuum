@@ -5,6 +5,7 @@ import space
 import cleaner
 import agentReflex
 import agentRandom
+import agentModel
 
 ''' 
 load environment from file
@@ -123,6 +124,8 @@ if sys.argv[1] == '-x':
 	agent = agentReflex.ReflexCleaner()
 elif sys.argv[1] == '-r':
 	agent = agentRandom.RandomCleaner()
+elif sys.argv[1] == '-m':
+	agent = agentModel.ModelCleaner()
 else:
 	PrintUsage()
 	quit()
