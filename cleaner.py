@@ -187,9 +187,9 @@ class Cleaner(object):
 		# run until the machine decides to shut down
 		while True:
 			#self.PrintInfo()
-			print 'ya I am here'
+			#print 'ya I am here'
 			PrintGrid(grid, self)
-			s = raw_input()
+			#s = raw_input()
 			action = self.Choose(grid)
 			
 			numActions += 1
@@ -201,14 +201,14 @@ class Cleaner(object):
 				#print 'Turning right'
 
 				self.Turn(1)
-				if self.SenseWall(grid):
-					self.Turn(1)
+				#if self.SenseWall(grid):
+				#	self.Turn(1)
 			elif action == self.ActTurnLeft:
 				#print 'Turning left'
 
 				self.Turn(0)
-				if self.SenseWall(grid):
-					self.Turn(0)
+				#if self.SenseWall(grid):
+				#	self.Turn(0)
 			elif action == self.ActSuckDirt:
 				#print 'Sucking dirt'
 				self.SuckDirt(grid)

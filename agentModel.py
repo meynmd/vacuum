@@ -34,6 +34,10 @@ class ModelCleaner(cleaner.Cleaner):
 
 		else:	
 
+			if isHome and isFacingWall:
+				return self.ActTurnOff
+
+
 			if self.NextAction==1:
 				if not self.IsSweepingNorth:
 					self.NextAction=0
