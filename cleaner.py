@@ -186,6 +186,7 @@ class Cleaner(object):
 	
 		# run until the machine decides to shut down
 		while True:
+
 			if fullTrace:
 				PrintGrid(grid, self)
 
@@ -199,8 +200,10 @@ class Cleaner(object):
 				self.Move(grid)
 			elif action == self.ActTurnRight:
 				self.Turn(1)
+
 			elif action == self.ActTurnLeft:
 				self.Turn(0)
+
 			elif action == self.ActSuckDirt:
 				self.SuckDirt(grid)
 			elif action == self.ActTurnOff:
