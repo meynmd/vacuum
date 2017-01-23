@@ -186,10 +186,20 @@ class Cleaner(object):
 	
 		# run until the machine decides to shut down
 		while True:
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+>>>>>>> Stashed changes
 			if fullTrace:
 				PrintGrid(grid, self)
 
+=======
+			#self.PrintInfo()
+			#print 'ya I am here'
+			PrintGrid(grid, self)
+			#s = raw_input()
+>>>>>>> origin/testing
 			action = self.Choose(grid)
 			numActions += 1
 
@@ -200,10 +210,25 @@ class Cleaner(object):
 				self.Move(grid)
 			elif action == self.ActTurnRight:
 				self.Turn(1)
+<<<<<<< Updated upstream
 
 			elif action == self.ActTurnLeft:
 				self.Turn(0)
 
+=======
+<<<<<<< HEAD
+=======
+				#if self.SenseWall(grid):
+				#	self.Turn(1)
+>>>>>>> origin/testing
+			elif action == self.ActTurnLeft:
+				self.Turn(0)
+<<<<<<< HEAD
+=======
+				#if self.SenseWall(grid):
+				#	self.Turn(0)
+>>>>>>> origin/testing
+>>>>>>> Stashed changes
 			elif action == self.ActSuckDirt:
 				self.SuckDirt(grid)
 			elif action == self.ActTurnOff:
