@@ -6,6 +6,7 @@ import cleaner
 import agentReflex
 import agentRandom
 import agentModel
+import agentModelFour
 
 VERBOSE = False
 
@@ -118,7 +119,7 @@ def TestReflexAgent(filename):
 	print 'Efficiency: ' + str(float(cleanedDirtCount)/float(numAct)) + '\n%cleaned: '+ str(float(cleanedDirtCount)/float(initDirtCount))
 
 def TestModelAgent(filename):
-	print '************* TESTING MODEL AGENT ****** ON FILE ' + filename
+	print '************* TESTING MODEL AGENT  3 Bit Version ****** ON FILE ' + filename
 	agent = agentModel.ModelCleaner()
 	grid = LoadGrid(filename)
 
@@ -127,6 +128,17 @@ def TestModelAgent(filename):
 	cleanedDirtCount = initDirtCount - CountDirt(grid)
 	print 'Model Agent cleaned ' + str(cleanedDirtCount) + ' spaces using ' + str(numAct) + ' actions'
 	print 'Efficiency: ' + str(float(cleanedDirtCount) / float(numAct)) + ' \n%cleaned: ' + str(float(cleanedDirtCount) / float(initDirtCount))
+
+	print '************* TESTING MODEL AGENT  4 Bit Version ****** ON FILE ' + filename
+	agent = agentModelFour.ModelFourCleaner()
+	grid = LoadGrid(filename)
+
+	initDirtCount = CountDirt(grid)
+	numAct = agent.Run(grid, VERBOSE)
+	cleanedDirtCount = initDirtCount - CountDirt(grid)
+	print 'Model Agent cleaned ' + str(cleanedDirtCount) + ' spaces using ' + str(numAct) + ' actions'
+	print 'Efficiency: ' + str(float(cleanedDirtCount) / float(numAct)) + ' \n%cleaned: ' + str(float(cleanedDirtCount) / float(initDirtCount))
+
 
 
 def TestRandomAgent(filename):

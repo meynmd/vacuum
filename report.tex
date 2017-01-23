@@ -97,6 +97,74 @@ else:
 \subsection{Deterministic Model-based reflex agent}
 In this case we implemented a snaking space-filling curve.  The agent will traverse vertically "north" till it hits the wall, after which it takes a right turn, moves forward one space, turns right again and continues moving forward in the "south" direction. When moving in this direction, the turns become left turns.  Eventually, this path will be exhausted, and we flip the reverse bit so that we go back down the same path we came in on.
 
+\subsubsection{Three bit version}
+
+We are using  three Boolean variables (IsSweepingNorth, NextAction, moveForward) to keep track of action dynamics of the agent. The description of the variables are below: 
+\begin{enumerate}
+\item IsSweepingNorth = True if agent moving in North, is False if moving in South. Determines whether the agent turns left or right when it hits the wall.
+\item NextAction = MOVE if agent has to Move Forward in its next time step; TURN if it has to take a left/right turn.
+\item moveForward = 1 if the agent should move forward one space before turning again; otherwise 0. 
+\end{enumerate}
+
+
+
+
+
+
+
+
+\begin{lstlisting}[frame=single]
+		IsSweepingNorth = True
+        NextAction = MOVE
+        moveForward = False			
+
+		if isSpaceDirty:								// If the cell is dirty. 
+			return SuckDirt
+
+		else:	
+
+			if NextAction == TURN:
+				if not IsSweepingNorth:
+					NextAction = MOVE
+					return TurnRight
+				else:
+					NextAction = MOVE
+					return TurnLeft
+
+			if isFacingWall and moveForward:
+				if IsSweepingNorth:
+					moveForward = False
+					return TurnLeft
+				else:
+					moveForward = False
+					return TurnLeft
+
+
+			if isFacingWall and IsSweepingNorth:
+				
+				moveForward = True
+				IsSweepingNorth = not IsSweepingNorth
+				return TurnRight
+
+			elif isFacingWall and not IsSweepingNorth:
+				
+				moveForward = True
+				IsSweepingNorth = not IsSweepingNorth
+				return TurnLeft
+
+			else:
+				if NextAction == 0:
+					
+					if moveForward == True:
+						moveForward = False
+						NextAction = TURN
+
+					return Move
+                    
+\end{lstlisting}
+
+\subsubsection{Four bit version}
+
 We are using  four Boolean variables (IsSweepingNorth, isStartingTurn, isDoneTurning, isReversed) to keep track of action dynamics of the agent. Note that the first boolean variable could be removed if we added a compass sensor to the robot.  Additionally, we have an implementation using 3 booleans (slightly different implementation) commented out in our submission.  It stores the previous move as well as the desired next move in order to handle the dynamics of making the U turn, which takes some state information to perform.
 
 The description of the variables are below: 
@@ -109,7 +177,7 @@ The description of the variables are below:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1\linewidth]{snaking}
+\includegraphics[width=.6\linewidth]{snaking}
 \caption{Illustrates the search path of the model-based reflex agent.  Refer to the source code for additional information about what each rule handles.  Rules 2-4 handle the first U turn, while 5,3,6 handle the next.  7-10 handle some edge cases where we must bounce off the opposing wall and return along the same path we came on.}
 \label{fig:reflex}
 \end{figure}
@@ -202,7 +270,8 @@ We carried out the experiment with 3 agents (Simple Reflex Agent, Random Agent, 
 Simple Reflex Agent 		& 28                  & 60                  & 43.75     & 0.46            \\ \hline
 Random Agent 1       	& 17          	& 221                & 27.8       & .08            \\ 
 Random Agent 2 - Move 	& 23 			& 133		&37.25	& .18			\\ \hline
-Model Agent 		& 64                  & 221                & 100       & 0.29            \\ \hline
+Model Agent - 3 bit		& 64                  & 223                & 100       & 0.286            \\
+Model Agent - 4 bit		& 64                  & 221                & 100       & 0.29            \\ \hline
 \end{tabular}
 \end{table}
 
@@ -219,7 +288,8 @@ Model Agent 		& 64                  & 221                & 100       & 0.29     
 Simple Reflex Agent 		& 10                  & 24                  & 18.9     & 0.42            \\ \hline
 Random Agent 1       	& 6	         	& 172                & 12.9       & .039            \\ 
 Random Agent 2 - Move 	& 10 			& 71		& 19.8	& .15			\\ \hline
-Model Agent 		& 22                  & 10000                & 41.5       & .0022            \\ \hline
+Model Agent - 3 bit		& 12                  & 38                & 22.6       & .315            \\ 
+Model Agent - 4 bit		& 22                  & 10000                & 41.5       & .0022            \\ 
 \end{tabular}
 \end{table}
 
@@ -233,7 +303,8 @@ Model Agent 		& 22                  & 10000                & 41.5       & .0022 
 Simple Reflex Agent 		& 13                  & 10000                  & 24.5     & .0013            \\ \hline
 Random Agent 1       	& 9	         	& 150                & 17.9       & .06            \\ 
 Random Agent 2 - Move 	& 15 			& 119		& 29 	& .13			\\ \hline
-Model Agent 		& 14                  & 51                & 26.4       & .27            \\ \hline
+Model Agent - 3 bit		& 14                  & 53                & 26.4       & .26            \\ 
+Model Agent - 4 bit		& 14                  & 51                & 26.4       & .27            \\ \hline
 \end{tabular}
 \end{table}
 
@@ -247,7 +318,8 @@ Model Agent 		& 14                  & 51                & 26.4       & .27      
 Simple Reflex Agent 		& 6                  & 16                  & 10.9     & .375            \\ \hline
 Random Agent 1       	& 8	         	& 177                & 14.8       & .046            \\ 
 Random Agent 2 - Move 	& 11 			& 84		& 20.2 	& .13			\\ \hline
-Model Agent 		& 35                  & 10000                & 63.6       & .0035            \\ \hline
+Model Agent - 3 bit		& 10                  & 32                & 18.2       & .3125            \\ 
+Model Agent - 4 bit		& 35                  & 10000                & 63.6       & .0035            \\ \hline
 \end{tabular}
 \end{table}
 
