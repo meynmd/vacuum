@@ -11,6 +11,7 @@ class ReflexCleaner(cleaner.Cleaner):
 	
 	'''
 	def Choose(self, grid):
+		#print 'beginning to choose action'
 		isFacingWall = self.SenseWall(grid)
 		isSpaceDirty = self.SenseDirt(grid)
 		isHome = self.SenseHome()

@@ -181,42 +181,31 @@ class Cleaner(object):
 	run the simulation
 	
 	'''
-	def Run(self, grid):
+	def Run(self, grid, fullTrace):
 		numActions = 0
 	
 		# run until the machine decides to shut down
 		while True:
-			#self.PrintInfo()
-			print 'ya I am here'
-			PrintGrid(grid, self)
-			s = raw_input()
+			if fullTrace:
+				PrintGrid(grid, self)
+
 			action = self.Choose(grid)
-			
 			numActions += 1
-			
+
+			if numActions > 9999:
+				return numActions;
+
 			if action == self.ActMove:
-				#print 'Moving forward'
 				self.Move(grid)
 			elif action == self.ActTurnRight:
-				#print 'Turning right'
-
 				self.Turn(1)
-				if self.SenseWall(grid):
-					self.Turn(1)
 			elif action == self.ActTurnLeft:
-				#print 'Turning left'
-
 				self.Turn(0)
-				if self.SenseWall(grid):
-					self.Turn(0)
 			elif action == self.ActSuckDirt:
-				#print 'Sucking dirt'
 				self.SuckDirt(grid)
 			elif action == self.ActTurnOff:
-				print '\nTurning off.\n'
 				return numActions
 
-			print
 
 
 	'''

@@ -5,9 +5,14 @@ import random
 
 class RandomCleaner(cleaner.Cleaner):
 
-	def __init__(self):
+	def __init__(self, probTurnOff, probTurnLeft, probTurnRight):
 		cleaner.Cleaner.__init__(self)
 		random.seed()
+
+		self.probTurnOff = probTurnOff
+		self.probTurnLeft = probTurnLeft
+		self.probTurnRight = probTurnRight
+		self.probMove = 100 - self.probTurnLeft - self.probTurnLeft
 
 	'''
 	choose a randomized action based on current percept
@@ -28,15 +33,22 @@ class RandomCleaner(cleaner.Cleaner):
 		else:
 		
 			if isHome:
-				if random.randint(0, 5) == 0:
+				if random.randint(0, 100) < self.probTurnOff:
 					return self.ActTurnOff
 
 			if isFacingWall:
-				return self.TurnRandom()
+				randNum = random.randint(0, self.probTurnLeft + self.probTurnRight)
+				if randNum < self.probTurnLeft:
+					return self.ActTurnLeft
+				else:
+					return self.ActTurnRight
 
 			else:
-				if random.randint(0, 3) == 0:
-					return self.TurnRandom()
+				randNum = random.randint(0,100)
+				if randNum < self.probTurnLeft:
+					return self.ActTurnLeft
+				elif randNum < self.probTurnLeft + self.probTurnRight:
+					return self.ActTurnRight
 				else:
 					return self.ActMove
 
