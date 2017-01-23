@@ -7,8 +7,6 @@ import agentReflex
 import agentRandom
 import agentModel
 
-VERBOSE = False
-
 ''' 
 load environment from file
 
@@ -103,68 +101,8 @@ def CountDirt(grid):
 
 
 def PrintUsage():
-	print '\nusage:\ntester {-x | -r | -m | -a} <env filename>\n'
+	print '\nusage:\ntester {-x | -r | -m} <env filename>\n'
 
-
-def TestReflexAgent(filename):
-	print '************* TESTING REFLEX AGENT ****** ON FILE ' + filename
-	agent = agentReflex.ReflexCleaner()
-	grid = LoadGrid(filename)
-
-	initDirtCount = CountDirt(grid)
-	numAct = agent.Run(grid, VERBOSE)
-	cleanedDirtCount = initDirtCount - CountDirt(grid)
-	print 'Reflex Agent cleaned ' + str(cleanedDirtCount) + ' of ' + str(initDirtCount) + ' spaces using ' + str(numAct) + ' actions'
-	print 'Efficiency: ' + str(float(cleanedDirtCount)/float(numAct)) + '\n%cleaned: '+ str(float(cleanedDirtCount)/float(initDirtCount))
-
-def TestModelAgent(filename):
-	print '************* TESTING MODEL AGENT ****** ON FILE ' + filename
-	agent = agentModel.ModelCleaner()
-	grid = LoadGrid(filename)
-
-	initDirtCount = CountDirt(grid)
-	numAct = agent.Run(grid, VERBOSE)
-	cleanedDirtCount = initDirtCount - CountDirt(grid)
-	print 'Model Agent cleaned ' + str(cleanedDirtCount) + ' spaces using ' + str(numAct) + ' actions'
-	print 'Efficiency: ' + str(float(cleanedDirtCount) / float(numAct)) + ' \n%cleaned: ' + str(float(cleanedDirtCount) / float(initDirtCount))
-
-
-def TestRandomAgent(filename):
-	print '************* TESTING RANDOM AGENT ****** ON FILE ' + filename
-	print 'probability to turn off 20%, turn left 33%, turn right 33%, move 33%'
-	agent = agentRandom.RandomCleaner(20,33,33)
-	sumActions = 0; sumDirts = 0
-	#print '\tCleaned Spaces \t Actions Taken'
-	for i in range (0,50):
-		grid = LoadGrid(filename)
-		initDirtCount = CountDirt(grid)
-		numAct = agent.Run(grid, VERBOSE)
-
-		cleanedDirtCount = initDirtCount - CountDirt(grid)
-
-		#print str(initDirtCount - endDirtCount) + '\t' + str(numAct)
-		sumActions += numAct
-		sumDirts += cleanedDirtCount
-	print 'Averages \t ' + str(sumDirts/50) + ' ' + str(sumActions/50)
-	print 'Efficiency: ' + str(float(sumDirts) / float(sumActions)) + ' \n%cleaned: ' + str(float(sumDirts) / float(initDirtCount*50))
-
-	print '************* TESTING RANDOM AGENT ****** ON FILE ' + filename
-	print 'probability to turn off 20%, turn left 15%, turn right 15%, move 70%'
-	agent = agentRandom.RandomCleaner(20,15,15)
-	sumActions = 0; sumDirts = 0
-	#print '\tCleaned Spaces \t Actions Taken'
-	for i in range (0,50):
-		grid = LoadGrid(filename)
-		initDirtCount = CountDirt(grid)
-		numAct = agent.Run(grid, VERBOSE)
-
-		cleanedDirtCount = initDirtCount - CountDirt(grid)
-
-		#print str(initDirtCount - endDirtCount) + '\t' + str(numAct)
-		sumActions += numAct
-		sumDirts += cleanedDirtCount
-	print 'Averages \t ' + str(sumDirts/50) + ' ' + str(sumActions/50)
-	print 'Efficiency: ' + str(float(sumDirts) / float(sumActions)) + ' \n%cleaned: ' + str(float(sumDirts) / float(initDirtCount*50))
 
 
 '''
@@ -174,29 +112,28 @@ runs one simulation of reflex-agent cleaner
 uses environment encoded in first argument to script
 
 '''
-if len(sys.argv) < 2:
+if len(sys.argv) != 3:
 	PrintUsage()
 	quit()
 
-if sys.argv[1] == '-a':
-	filenames = ['env1.txt', 'env2.txt', 'env3.txt', 'env4.txt']
-	for filename in filenames:
-		TestRandomAgent(filename)
-		TestReflexAgent(filename)
-		TestModelAgent(filename)
-		print '\n'
-	quit()
+grid = LoadGrid(sys.argv[2])
 
-if len(sys.argv) !=3:
-	PrintUsage()
-	quit()
+initDirtCount = CountDirt(grid)
 
-elif sys.argv[1] == '-x':
-	TestReflexAgent(sys.argv[2])
+if sys.argv[1] == '-x':
+	agent = agentReflex.ReflexCleaner()
 elif sys.argv[1] == '-r':
-	TestRandomAgent(sys.argv[2])
+	agent = agentRandom.RandomCleaner()
 elif sys.argv[1] == '-m':
-	TestModelAgent(sys.argv[2])
+	agent = agentModel.ModelCleaner()
 else:
 	PrintUsage()
 	quit()
+
+
+numAct = agent.Run(grid)
+
+endDirtCount = CountDirt(grid)
+
+print '\nCleaned ' + str(initDirtCount - endDirtCount) + ' spaces.'
+print 'Took ' + str(numAct) + ' actions.\n'
